@@ -1,0 +1,30 @@
+# version: '3.9'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: topsecret
+      POSTGRES_DB: coreclinicprisma
+    volumes:
+      # Use a named volume for persistence
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+volumes:
+  # Define the named volume for PostgreSQL data persistence
+  postgres_data:
