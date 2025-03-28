@@ -34,7 +34,7 @@ export class AuthService {
     if (!isPasswordMatched)
       throw new UnauthorizedException('Invalid Credentials!');
 
-    return { id: user.id, name: user.first_name, role: user.role };
+    return { id: user.id, name: user.first_name, role: user.role, clinicId: user.primary_clinic_id };
   }
 
   async login(userId: number, name: string, role: Role) {
@@ -64,6 +64,7 @@ export class AuthService {
   }
 
   async validateJwtUser(userId: number) {
+    console.log('userIds', userId);
     const user = await this.userService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
     const currentUser = { id: user.id, role: user.role };

@@ -32,14 +32,14 @@ import { UsersModule } from 'src/modules/users/users.module';
     JwtStrategy,
     RefreshStrategy,
     // GoogleStrategy,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard, //@UseGuard(JwtAuthGuard)
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard, //@UseGuard(Roles)
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard, //@UseGuard(JwtAuthGuard)
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard, //@UseGuard(Roles)
+    // },
   ],
 })
 export class AuthModule { }

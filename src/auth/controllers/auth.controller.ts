@@ -15,6 +15,8 @@ import { RefreshAuthGuard } from '../../common/guards/refresh-auth/refresh-auth.
 import { Role } from '@prisma/client';
 import { Public } from '../../common/decorators/public.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 
 // Define user and request types
 interface AuthenticatedUser {
@@ -43,9 +45,11 @@ export class AuthController {
   login(@Request() req: AuthenticatedRequest) {
     return this.authService.login(req.user.id, req.user.name, req.user.role);
   }
-
-  @Roles('ADMIN', 'MANAGER')
+  
+  @Public()
   @Get('protected')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'MANAGER')
   getAll(@Request() req: AuthenticatedRequest) {
     return {
       messege: `Now you can access this protected API. this is your user ID: ${req.user.id}`,
@@ -59,7 +63,9 @@ export class AuthController {
     return this.authService.refreshToken(req.user.id, req.user.name);
   }
 
+  @Public()
   @Post('signout')
+  // @UseGuards(JwtAuthGuard)
   signOut(@Req() req: AuthenticatedRequest) {
     return this.authService.signOut(req.user.id);
   }
