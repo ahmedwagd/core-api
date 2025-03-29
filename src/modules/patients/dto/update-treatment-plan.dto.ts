@@ -1,2 +1,7 @@
+import { IsOptional, IsString } from "class-validator";
 
-export class UpdateTreatmentPlanDto {}
+export class UpdateTreatmentPlanDto {
+  @IsOptional()
+  @IsString()
+  description?: string;
+}

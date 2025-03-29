@@ -1,7 +1,10 @@
-// import { PartialType } from '@nestjs/mapped-types';
-// import { CreateCancellationLogDto } from './create-cancellation-log.dto';
+import { IsOptional, IsString } from "class-validator";
+export class UpdateCancellationLogDto {
+  @IsOptional()
+  @IsString()
+  action?: string;
 
-// export class UpdateCancellationLogDto extends PartialType(
-//   CreateCancellationLogDto,
-// ) {}
-export class UpdateCancellationLogDto  {}
+  @IsOptional()
+  @IsString()
+  description?: string;
+}

@@ -1,5 +1,26 @@
-// import { PartialType } from '@nestjs/swagger';
-import { CreateAppointmentDto } from './create-appointment.dto';
+import { appointment_status } from "@prisma/client";
+import { Type } from "class-transformer";
+import { IsDate, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
 
-// export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {}
-export class UpdateAppointmentDto extends (CreateAppointmentDto) {}
+export class UpdateAppointmentDto {
+  @IsOptional()
+  @IsInt()
+  assignedToId?: number;
+
+  @IsOptional()
+  @IsInt()
+  billId?: number;
+
+  @IsOptional()
+  @IsEnum(appointment_status)
+  appointmentStatus?: appointment_status;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  appointmentDate?: Date;
+
+  @IsOptional()
+  @IsString()
+  reason?: string;
+}

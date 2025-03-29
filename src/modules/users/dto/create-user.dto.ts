@@ -1,5 +1,6 @@
-import { Role } from '@prisma/client';
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { gender, Role } from '@prisma/client';
+import { Type } from 'class-transformer';
+import { IsBoolean, IsDate, IsEmail, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -13,11 +14,11 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  first_name: string;
+  firstName: string;
 
   @IsString()
   @IsNotEmpty()
-  last_name: string;
+  lastName: string;
 
   @IsOptional()
   @IsString()
@@ -33,5 +34,30 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsInt()
-  primary_clinic_id?: number;
+  primaryClinicId?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isVerified?: boolean;
+
+  @IsOptional()
+  @IsEnum(gender)
+  gender?: gender;
+
+  @IsOptional()
+  @IsString()
+  specialization?: string;
+
+  @IsOptional()
+  @IsString()
+  license?: string;
+
+  @IsOptional()
+  @IsString()
+  socialId?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  birthday?: Date;
 }

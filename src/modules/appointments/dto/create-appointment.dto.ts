@@ -1,6 +1,9 @@
+import { appointment_status } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
+  IsDate,
+  IsEnum,
   IsInt,
-  IsISO8601,
   IsNotEmpty,
   IsOptional,
   IsString
@@ -28,13 +31,14 @@ export class CreateAppointmentDto {
   @IsInt()
   billId?: number;
 
-  // @IsOptional()
-  // @IsEnum(appointmentStatus)
-  // appointmentStatus?: AppointmentStatus;
+  @IsOptional()
+  @IsEnum(appointment_status)
+  appointmentStatus?: appointment_status;
 
   @IsNotEmpty()
-  @IsISO8601()
-  appointmentDate: string;
+  @IsDate()
+  @Type(() => Date)
+  appointmentDate: Date;
 
   @IsOptional()
   @IsString()

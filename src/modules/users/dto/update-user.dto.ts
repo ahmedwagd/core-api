@@ -1,14 +1,23 @@
 import { gender } from "@prisma/client";
-import { IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsBoolean, IsDate, IsEmail, IsOptional, IsString } from "class-validator";
 
 export class UpdateUserDto {
   @IsOptional()
-  @IsString()
-  first_name?: string;
+  @IsEmail()
+  email?: string;
 
   @IsOptional()
   @IsString()
-  last_name?: string;
+  password?: string;
+
+  @IsOptional()
+  @IsString()
+  firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  lastName?: string;
 
   @IsOptional()
   @IsString()
@@ -21,4 +30,25 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   gender?: gender;
+
+  @IsOptional()
+  @IsBoolean()
+  isVerified?: boolean;
+
+  @IsOptional()
+  @IsString()
+  hashedRefreshToken?: string;
+
+  @IsOptional()
+  @IsString()
+  license?: string;
+
+  @IsOptional()
+  @IsString()
+  social_id?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  birthday?: Date;
 }

@@ -1,7 +1,9 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString, Max, Min } from 'class-validator';
 export class CreateExaminationDto {
   @IsOptional()
   @IsInt()
+  @Min(0)
+  @Max(10)
   subjectivePainScale?: number;
 
   @IsOptional()

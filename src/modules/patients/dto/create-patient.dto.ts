@@ -1,7 +1,9 @@
+import { gender } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
   IsDate,
   IsDecimal,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString
@@ -20,9 +22,9 @@ export class CreatePatientDto {
   @IsString()
   phone: string;
 
-  // @IsOptional()
-  // @IsEnum(gender)
-  // gender?: gender;
+  @IsOptional()
+  @IsEnum(gender)
+  gender?: gender;
 
   @IsOptional()
   @IsDate()

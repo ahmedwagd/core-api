@@ -34,7 +34,7 @@ export class UsersController {
 
   // Public endpoint for admin to create users
   @Public()
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'MANAGER')
   @Post('create')
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -42,7 +42,7 @@ export class UsersController {
 
   // Get all users (admin only)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'MANAGER')
   @Get()
   async getAllUsers() {
     return this.usersService.findAll();
@@ -67,7 +67,7 @@ export class UsersController {
 
   // Change user role (admin only)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'MANAGER')
   @Patch(':id/role')
   async changeUserRole(
     @Param('id', ParseIntPipe) id: number,
@@ -78,6 +78,7 @@ export class UsersController {
 
   // Delete user account (admin or self)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'MANAGER')
   @Delete(':id')
   async deleteUser(
     @Request() req: AuthenticatedRequest,
