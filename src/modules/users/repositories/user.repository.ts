@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { Role } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { UpdateUserDto } from 'src/modules/users/dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -46,7 +46,7 @@ export class UserRepository {
   }
 
   async findAll() {
-    return this.prisma.user.findMany({
+    return await this.prisma.user.findMany({
       select: {
         id: true,
         email: true,
@@ -59,7 +59,7 @@ export class UserRepository {
   }
 
   async update(userId: number, updateUserDto: UpdateUserDto) {
-    return this.prisma.user.update({
+    return await this.prisma.user.update({
       where: { id: userId },
       data: updateUserDto
     });

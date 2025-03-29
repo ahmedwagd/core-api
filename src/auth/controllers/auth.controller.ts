@@ -7,14 +7,14 @@ import {
   Request,
   UseGuards
 } from '@nestjs/common';
-import { CreateUserDto } from '../../modules/users/dto/create-user.dto';
-import { AuthService } from '../services/auth.service';
-import { LocalAuthGuard } from '../../common/guards/local-auth/local-auth.guard';
-import { RefreshAuthGuard } from '../../common/guards/refresh-auth/refresh-auth.guard';
-// import { GoogleAuthGuard } from './guards/google-auth/google-auth.guard';
 import { Role } from '@prisma/client';
-import { Public } from '../../common/decorators/public.decorator';
-import { Roles } from '../../common/decorators/roles.decorator';
+import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { AuthService } from 'src/auth/services/auth.service';
+import { LocalAuthGuard } from 'src/common/guards/local-auth/local-auth.guard';
+import { RefreshAuthGuard } from 'src/common/guards/refresh-auth/refresh-auth.guard';
+// import { GoogleAuthGuard } from './guards/google-auth/google-auth.guard';
+import { Public } from 'src/common/decorators/public.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 
@@ -45,7 +45,7 @@ export class AuthController {
   login(@Request() req: AuthenticatedRequest) {
     return this.authService.login(req.user.id, req.user.name, req.user.role);
   }
-  
+
   @Public()
   @Get('protected')
   @UseGuards(JwtAuthGuard, RolesGuard)

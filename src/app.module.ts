@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaService } from './prisma/prisma.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './prisma/prisma.module';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './common/guards/jwt-auth/jwt-auth.guard';
-import { RolesGuard } from './common/guards/roles/roles.guard';
+import { AppController } from 'src/app.controller';
+import { AppService } from 'src/app.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { UsersModule } from 'src/modules/users/users.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 
 @Module({
   imports: [
@@ -22,9 +22,9 @@ import { RolesGuard } from './common/guards/roles/roles.guard';
     provide: APP_GUARD,
     useClass: JwtAuthGuard, // This should be applied first
   },
-  {
-    provide: APP_GUARD,
-    useClass: RolesGuard, // This should be applied second
-  },],
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard, // This should be applied second
+    },],
 })
-export class AppModule {}
+export class AppModule { }

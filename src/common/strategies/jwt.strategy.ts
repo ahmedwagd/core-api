@@ -10,8 +10,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     // @Inject(jwtConfig.KEY)
     // private jwtConfiguration: ConfigType<typeof jwtConfig>,
-    private configService: ConfigService,
-    private authService: AuthService,
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
   ) {
 
     super({
@@ -21,9 +21,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: AuthJwtPayload) {
+  async validate(payload: AuthJwtPayload) {
     const userId = payload.sub;
     console.log('JWT Payload:', payload);
-    return this.authService.validateJwtUser(userId);
+    return await this.authService.validateJwtUser(userId);
   }
 }
