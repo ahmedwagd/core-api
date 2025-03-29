@@ -155,10 +155,10 @@ CREATE TABLE "users" (
     "social_id" VARCHAR(255),
     "birthday" DATE,
     "phone" VARCHAR(20),
-    "primary_clinic_id" INTEGER NOT NULL,
     "created_at" TIMESTAMPTZ(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(6) DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMPTZ(6),
+    "clinicId" INTEGER,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -189,9 +189,6 @@ CREATE INDEX "idx_treatment_plans_patient" ON "treatment_plans"("patient_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
-
--- CreateIndex
-CREATE INDEX "idx_user_clinic" ON "users"("primary_clinic_id");
 
 -- CreateIndex
 CREATE INDEX "idx_user_email" ON "users"("email");
@@ -230,4 +227,4 @@ ALTER TABLE "schedules" ADD CONSTRAINT "schedules_user_id_fkey" FOREIGN KEY ("us
 ALTER TABLE "treatment_plans" ADD CONSTRAINT "treatment_plans_patient_id_fkey" FOREIGN KEY ("patient_id") REFERENCES "patients"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_primary_clinic_id_fkey" FOREIGN KEY ("primary_clinic_id") REFERENCES "clinic"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "users" ADD CONSTRAINT "users_clinicId_fkey" FOREIGN KEY ("clinicId") REFERENCES "clinic"("id") ON DELETE SET NULL ON UPDATE CASCADE;

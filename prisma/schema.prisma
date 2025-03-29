@@ -58,18 +58,18 @@ model cancellation_log {
 }
 
 model clinic {
-  id          Int           @id @default(autoincrement())
-  name        String        @db.VarChar(255)
-  phone       String        @db.VarChar(20)
-  address     String
-  manager     String        @db.VarChar(255)
-  email       String        @db.VarChar(255)
-  is_active   Boolean?      @default(true)
-  created_at  DateTime?     @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime?     @default(now()) @db.Timestamptz(6)
-  deleted_at  DateTime?     @db.Timestamptz(6)
-  appointment appointment[]
-  user        user[]
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(255)
+  phone        String        @db.VarChar(20)
+  address      String
+  manager      String        @db.VarChar(255)
+  email        String        @db.VarChar(255)
+  is_active    Boolean?      @default(true)
+  created_at   DateTime?     @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime?     @default(now()) @db.Timestamptz(6)
+  deleted_at   DateTime?     @db.Timestamptz(6)
+  appointments appointment[]
+  users        user[]
 
   @@map("clinic")
 }
@@ -166,7 +166,6 @@ model user {
   social_id                                        String?            @db.VarChar(255)
   birthday                                         DateTime?          @db.Date
   phone                                            String?            @db.VarChar(20)
-  primary_clinic_id                                Int
   created_at                                       DateTime?          @default(now()) @db.Timestamptz(6)
   updated_at                                       DateTime?          @default(now()) @db.Timestamptz(6)
   deleted_at                                       DateTime?          @db.Timestamptz(6)
@@ -174,9 +173,9 @@ model user {
   appointment_appointment_created_by_user_idTouser appointment[]      @relation("appointment_created_by_user_idTouser")
   cancellation_log                                 cancellation_log[]
   schedule                                         schedule[]
-  clinic                                           clinic             @relation(fields: [primary_clinic_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  clinic                                           clinic?            @relation(fields: [clinicId], references: [id])
+  clinicId                                         Int?
 
-  @@index([primary_clinic_id], map: "idx_user_clinic")
   @@index([email], map: "idx_user_email")
   @@map("users")
 }
