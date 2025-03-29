@@ -46,7 +46,6 @@ export class AuthController {
     return this.authService.login(req.user.id, req.user.name, req.user.role);
   }
 
-  @Public()
   @Get('protected')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'MANAGER')
@@ -63,7 +62,7 @@ export class AuthController {
     return this.authService.refreshToken(req.user.id, req.user.name);
   }
 
-  @Public()
+  @UseGuards(LocalAuthGuard)
   @Post('signout')
   // @UseGuards(JwtAuthGuard)
   signOut(@Req() req: AuthenticatedRequest) {
