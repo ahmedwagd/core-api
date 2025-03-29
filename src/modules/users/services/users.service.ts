@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { hash } from 'argon2';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
@@ -12,13 +12,17 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    const { password, ...user } = createUserDto;
+    const { password, email, ...user } = createUserDto;
+
+    const userExist = await this.findByEmail(email);
+    if (userExist) throw new ConflictException('User already exists!');
+
 
     if (!password) throw new BadRequestException('');
 
     const hashedPassword = await hash(password);
 
-    const newUser = { password: hashedPassword, ...user }
+    const newUser = { password: hashedPassword, email, ...user }
 
     return await this._userRepository.create(newUser);
   }

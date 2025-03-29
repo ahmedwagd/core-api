@@ -10,10 +10,7 @@ export class UserRepository {
   async create(createUserDto: CreateUserDto) {
 
     return await this.prisma.user.create({
-      data: {
-        ...createUserDto,
-        primary_clinic_id: 1
-      }
+      data: createUserDto
     });
   }
 

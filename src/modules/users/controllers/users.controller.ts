@@ -12,13 +12,12 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { UsersService } from 'src/modules/users/services/users.service';
-import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/roles/roles.guard';
+import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
 import { UpdateUserDto } from 'src/modules/users/dto/update-user.dto';
+import { UsersService } from 'src/modules/users/services/users.service';
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -32,8 +31,7 @@ interface AuthenticatedRequest extends Request {
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  // Public endpoint for admin to create users
-  @Public()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'MANAGER')
   @Post('create')
   async createUser(@Body() createUserDto: CreateUserDto) {

@@ -12,11 +12,11 @@ import {
 export class CreatePatientDto {
   @IsNotEmpty()
   @IsString()
-  firstName: string;
+  first_name: string;
 
   @IsNotEmpty()
   @IsString()
-  lastName: string;
+  last_name: string;
 
   @IsNotEmpty()
   @IsString()

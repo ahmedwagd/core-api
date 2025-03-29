@@ -34,7 +34,7 @@ export class AuthService {
     if (!isPasswordMatched)
       throw new UnauthorizedException('Invalid Credentials!');
 
-    return { id: user.id, name: user.first_name, role: user.role, clinicId: user.primary_clinic_id };
+    return { id: user.id, name: user.first_name, role: user.role };
   }
 
   async login(userId: number, name: string, role: Role) {
