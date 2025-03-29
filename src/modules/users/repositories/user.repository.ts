@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { Role } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { UpdateUserDto } from 'src/modules/users/dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -24,6 +26,7 @@ export class UserRepository {
   }
 
   async findOne(userId: number) {
+    console.log('userId', userId);
     return await this.prisma.user.findUnique({
       where: {
         id: userId,
@@ -39,6 +42,39 @@ export class UserRepository {
       data: {
         hashedRefreshToken: hashedRT,
       },
+    });
+  }
+
+  async findAll() {
+    return await this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        first_name: true,
+        last_name: true,
+        role: true,
+        // Exclude sensitive information
+      }
+    });
+  }
+
+  async update(userId: number, updateUserDto: UpdateUserDto) {
+    return await this.prisma.user.update({
+      where: { id: userId },
+      data: updateUserDto
+    });
+  }
+
+  async delete(userId: number) {
+    return this.prisma.user.delete({
+      where: { id: userId }
+    });
+  }
+
+  async updateUserRole(userId: number, newRole: Role) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: { role: newRole }
     });
   }
 }

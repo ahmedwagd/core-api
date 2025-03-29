@@ -1,4 +1,4 @@
 import { SetMetadata } from '@nestjs/common';
-import { IS_PUBLIC_KEY } from '../constants/constants';
+import { AUTH_CONSTANTS } from 'src/common/constants/constants';
 
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+export const Public = () => SetMetadata(AUTH_CONSTANTS.IS_PUBLIC_KEY, true);
