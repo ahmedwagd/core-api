@@ -4,10 +4,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersController } from './controllers/users.controller';
 import { UserRepository } from './repositories/user.repository';
+import { ScheduleRepository } from './repositories/schedule.repository';
+import { SchedulesService } from './services/schedules.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, PrismaService, UserRepository],
+  providers: [UsersService, SchedulesService, PrismaService, UserRepository, ScheduleRepository],
   imports: [PrismaModule],
   exports: [UsersService],
 })

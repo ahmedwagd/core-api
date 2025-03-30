@@ -10,6 +10,7 @@ import { PatientsModule } from 'src/modules/patients/patients.module';
 import { UsersModule } from 'src/modules/users/users.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ClinicModule } from 'src/modules/clinic/clinic.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
     UsersModule,
     PrismaModule,
     PatientsModule,
-    // ClinicModule,
+    ClinicModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],

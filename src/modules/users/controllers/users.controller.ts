@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -18,6 +19,9 @@ import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
 import { UpdateUserDto } from 'src/modules/users/dto/update-user.dto';
 import { UsersService } from 'src/modules/users/services/users.service';
+import { SchedulesService } from '../services/schedules.service';
+import { CreateScheduleDto } from '../dto/create-schedule.dto';
+import { UpdateScheduleDto } from '../dto/update-schedule.dto';
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -29,7 +33,7 @@ interface AuthenticatedRequest extends Request {
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService, private readonly schedulesService: SchedulesService) { }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'MANAGER')
@@ -87,5 +91,41 @@ export class UsersController {
       throw new ForbiddenException('You are not authorized to delete this user');
     }
     return this.usersService.delete(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'MANAGER')
+  @Post(':id/schedule')
+  async createDoctorSchedule(
+    @Param('id', ParseIntPipe) doctorId: number,
+    @Body() createScheduleDto: CreateScheduleDto
+  ) {
+    // Add null check and explicit type
+    const user = await this.usersService.findOne(doctorId);
+
+    if (!user || user.role !== 'DOCTOR') {
+      throw new BadRequestException('Invalid doctor or not a doctor');
+    }
+
+    return this.schedulesService.create({
+      ...createScheduleDto,
+      user_id: doctorId // Match DTO field name
+    });
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'MANAGER')
+  @Patch(':id/schedule')
+  async updateDoctorSchedule(
+    @Param('id', ParseIntPipe) doctorId: number,
+    @Body() updateScheduleDto: UpdateScheduleDto
+  ) {
+    // Verify the user is a doctor
+    const user = await this.usersService.findOne(doctorId);
+    if (!user || user.role !== 'DOCTOR') {
+      throw new BadRequestException('Invalid doctor or not a doctor');
+    }
+
+    return this.schedulesService.update(doctorId, updateScheduleDto);
   }
 }

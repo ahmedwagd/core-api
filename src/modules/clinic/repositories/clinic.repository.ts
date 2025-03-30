@@ -1,5 +1,6 @@
 // src/users/repositories/user.repository.ts
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 // import { eq } from 'drizzle-orm';
 // import { DrizzleDBType } from 'src/common/types/drizzle-database';
 // import { DRIZZLE } from 'src/database/database.module';
@@ -7,7 +8,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ClinicRepository {
-  constructor( private db) {}
+  constructor(private readonly prisma: PrismaService) { }
+
   // async create(clinicData: any) {
   //   return await this.db.insert(clinic).values(clinicData).returning();
   // }
