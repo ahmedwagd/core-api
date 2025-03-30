@@ -28,6 +28,22 @@ export class UserRepository {
       where: {
         id: userId,
       },
+      omit: {
+        email: true,
+        password: true,
+        social_id: true,
+        license: true,
+        is_verified: true,
+        // hashedRefreshToken: true,
+        gender: true,
+        created_at: true,
+        updated_at: true,
+        deleted_at: true,
+        clinicId: true
+      },
+      include: {
+        schedule: true
+      }
     });
   }
 

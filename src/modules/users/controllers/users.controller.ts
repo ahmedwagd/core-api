@@ -70,6 +70,16 @@ export class UsersController {
   // Change user role (admin only)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'MANAGER')
+  @Get(':id')
+  async getUser(
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.usersService.findOne(id)
+  }
+
+  // Change user role (admin only)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'MANAGER')
   @Patch(':id/role')
   async changeUserRole(
     @Param('id', ParseIntPipe) id: number,
